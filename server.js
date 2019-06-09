@@ -1,6 +1,6 @@
 // Dependencies
 var express = require("express");
-
+var db = require("./models");
 // Create an instance of the express app.
 var app = express();
 
@@ -20,6 +20,12 @@ var routes = require("./controllers/burgersController.js");
 
 app.use(routes);
 
-app.listen(PORT, function() {
-  console.log("Listening on port:%s", PORT);
+
+var PORT = process.env.PORT || 3000
+db.sequelize.sync().then(function() {
+  app.listen(PORT, function() {
+    console.log("Listening on port:%s", PORT);
+  });
 });
+
+
